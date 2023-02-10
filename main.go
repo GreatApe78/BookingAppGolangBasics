@@ -5,26 +5,29 @@ import (
 	"strings"
 )
 
+//Package variables
+var conferenceName string = "Great Inc"
+const conferenceTickets uint8 = 50
+var remainingTickets uint8 = 50
+var bookings = []string{}
 func main() {
 	//variables
-	var conferenceName string = "Great Inc"
-	const conferenceTickets uint8 = 50
-	var remainingTickets uint8 = 50
+	
+	
+	
 	var firstName string
 	var lastName string
 	var email string
 	var userTickets uint8
-	var bookings = []string{}
-	var pf = fmt.Printf
-	var pl = fmt.Println
+	
 
 	for remainingTickets != 0 {
 
-		greetUsers(conferenceName, conferenceTickets, remainingTickets)
+		greetUsers()
 
-		pf("We have a total of %v tickets and %v tickets remaining \n", conferenceTickets, remainingTickets)
+		fmt.Printf("We have a total of %v tickets and %v tickets remaining \n", conferenceTickets, remainingTickets)
 
-		pl("Get your tickets here to attend")
+		fmt.Println("Get your tickets here to attend")
 
 		firstName, lastName = getNameInput()
 
@@ -41,14 +44,14 @@ func main() {
 		remainingTickets = remainingTickets - validTickets
 
 		bookings = append(bookings, validFullName)
+		
+		fmt.Printf("Thank you %v for booking %v tickets. You will receive a confirmation email at %v\n", validFullName, validTickets, validMail)
 
-		pf("Thank you %v for booking %v tickets. You will receive a confirmation email at %v\n", validFullName, validTickets, validMail)
-
-		pf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 		fmt.Println("============================================")
 		fmt.Printf("The first names of bookings are: %v \n", getFirstNames(bookings))
 		fmt.Println("============================================")
-		
+
 		//bookTicket(remainingTickets,validTickets,bookings,validFullName,validMail,conferenceName)
 	}
 
@@ -56,7 +59,7 @@ func main() {
 }
 
 //funcoes
-func greetUsers(conferenceName string, conferenceTickets uint8, remainingTickets uint8) {
+func greetUsers() {
 	fmt.Printf("Welcome to %v booking application\n", conferenceName)
 	fmt.Printf("We have a total of %v tickets and %v tickets remaining \n", conferenceTickets, remainingTickets)
 
@@ -98,17 +101,14 @@ func checkMailInput(email string) string {
 }
 
 func checkTicketInput(userTickets uint8, avaiableTickets uint8) uint8 {
-	var isValidTickets = userTickets > 0
-	for !isValidTickets {
-		fmt.Println("You need to buy at least one ticket! type again:")
-		fmt.Scan(&userTickets)
-		isValidTickets = userTickets > 0
-	}
-	for userTickets > avaiableTickets {
-		fmt.Printf("You cannot by more than the %v avaiable tickets! type again:\n", avaiableTickets)
+	
+	for(userTickets<=0 || userTickets>avaiableTickets){
+		fmt.Printf("There are only %v remaining and you cannot buy 0 tickets! type again: ",avaiableTickets)
 		fmt.Scan(&userTickets)
 	}
+	
 	return userTickets
+
 }
 
 func getNameInput() (string, string) {
@@ -143,8 +143,8 @@ func getTicketInput() uint8 {
 
 }
 
-/* func bookTicket(remainingTickets uint8,validTickets uint8,bookings []string,validFullName string,validMail string,conferenceName string) {
-	
+ /* func bookTicket(_remainingTickets uint8,validTickets uint8,bookings []string,validFullName string,validMail string,conferenceName string) {
+	remainingTickets = _remainingTickets - validTickets
 
 	bookings = append(bookings, validFullName)
 
@@ -154,7 +154,7 @@ func getTicketInput() uint8 {
 	fmt.Println("============================================")
 	fmt.Printf("The first names of bookings are: %v \n", getFirstNames(bookings))
 	fmt.Println("============================================")
-} */
+} */ 
 
 func showEndMessage() {
 	fmt.Println("Booking Closed, no tickets left")
