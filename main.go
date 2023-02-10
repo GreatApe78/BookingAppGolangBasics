@@ -26,7 +26,7 @@ func main() {
 
 		pl("Get your tickets here to attend")
 
-		firstName,lastName = getNameInput()
+		firstName, lastName = getNameInput()
 
 		var validFullName = checkNameInput(firstName, lastName)
 
@@ -35,7 +35,6 @@ func main() {
 		var validMail = checkMailInput(email)
 
 		userTickets = getTicketInput()
-
 
 		var validTickets = checkTicketInput(userTickets, remainingTickets)
 
@@ -49,10 +48,11 @@ func main() {
 		fmt.Println("============================================")
 		fmt.Printf("The first names of bookings are: %v \n", getFirstNames(bookings))
 		fmt.Println("============================================")
+		
+		//bookTicket(remainingTickets,validTickets,bookings,validFullName,validMail,conferenceName)
 	}
 
-	pl("Booking Closed, no tickets left")
-	fmt.Println("================End of Application================")
+	showEndMessage()
 }
 
 //funcoes
@@ -122,23 +122,41 @@ func getNameInput() (string, string) {
 
 	fmt.Scan(&lastName)
 
-	return firstName,lastName
+	return firstName, lastName
 }
 
-func getMailInput() string{
+func getMailInput() string {
 	var email string
-	
+
 	fmt.Println("Enter your email address: ")
-	
+
 	fmt.Scan(&email)
 
 	return email
 }
-func getTicketInput() uint8{
+func getTicketInput() uint8 {
 	var userTickets uint8
 	fmt.Println("Enter Number of tickets: ")
 	fmt.Scan(&userTickets)
 
 	return userTickets
 
+}
+
+/* func bookTicket(remainingTickets uint8,validTickets uint8,bookings []string,validFullName string,validMail string,conferenceName string) {
+	
+
+	bookings = append(bookings, validFullName)
+
+	fmt.Printf("Thank you %v for booking %v tickets. You will receive a confirmation email at %v\n", validFullName, validTickets, validMail)
+
+	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+	fmt.Println("============================================")
+	fmt.Printf("The first names of bookings are: %v \n", getFirstNames(bookings))
+	fmt.Println("============================================")
+} */
+
+func showEndMessage() {
+	fmt.Println("Booking Closed, no tickets left")
+	fmt.Println("================End of Application================")
 }
