@@ -35,53 +35,27 @@ func main() {
 
 		input(&lastName)
 
-		var isValidName = len(firstName) >= 2 && len(lastName) >= 2
-
-		for !isValidName {
-			pl("enter a valid first name: (2 characters or more)")
-			input(&firstName)
-			pl("enter a valid last name: (2 characters or more)")
-			input(&lastName)
-			isValidName = len(firstName) >= 2 && len(lastName) >= 2
-		}
+		var validFullName = checkNameInput(firstName, lastName)
 
 		pl("Enter your email address: ")
-
 		input(&email)
-
-		var isValidMail = strings.Contains(email, "@")
-		for !isValidMail {
-			pl("enter a valid email address: (must contain '@')")
-			input(&email)
-			isValidMail = strings.Contains(email, "@")
-		}
+		var validMail = checkMailInput(email)
 
 		pl("How many tickets do you want to buy?")
 
 		input(&userTickets)
 
-		var isValidTickets = userTickets > 0
+		var validTickets = checkTicketInput(userTickets,remainingTickets)
 
-		for !isValidTickets {
-			pl("You need to buy at least one ticket!")
-			input(&userTickets)
-			isValidTickets = userTickets > 0
-		}
+		remainingTickets = remainingTickets - validTickets
 
-		for userTickets > remainingTickets {
-			pf("You cannot buy more tickets than the remaining ones. Choose a valid quantity! %v or less\n", remainingTickets)
-			fmt.Scan(&userTickets)
-		}
+		bookings = append(bookings, validFullName)
 
-		remainingTickets = remainingTickets - userTickets
-
-		bookings = append(bookings, firstName+" "+lastName)
-
-		pf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
+		pf("Thank you %v for booking %v tickets. You will receive a confirmation email at %v\n", validFullName, validTickets, validMail)
 
 		pf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-		fmt.Printf("The first names of bookings are: %v \n",getFirstNames(bookings))
+		fmt.Printf("The first names of bookings are: %v \n", getFirstNames(bookings))
 	}
 
 	pl("Booking Closed, no tickets left")
@@ -106,15 +80,39 @@ func getFirstNames(bookings []string) []string {
 	return firstNames
 }
 
-func validateNameInput(firstName string,lastName string) bool{
+func checkNameInput(firstName string, lastName string) string {
 	var isValidName = len(firstName) >= 2 && len(lastName) >= 2
-		for !isValidName {
-			fmt.Println("enter a valid first name: (2 characters or more)")
-			fmt.Scan(&firstName)
-			fmt.Println("enter a valid last name: (2 characters or more)")
-			fmt.Scan(&lastName)
-			isValidName = len(firstName) >= 2 && len(lastName) >= 2
-		}
-	return isValidName
+	for !isValidName {
+		fmt.Println("enter a valid first name: (2 characters or more)")
+		fmt.Scan(&firstName)
+		fmt.Println("enter a valid last name: (2 characters or more)")
+		fmt.Scan(&lastName)
+		isValidName = len(firstName) >= 2 && len(lastName) >= 2
+	}
+	return firstName + " " + lastName
 
+}
+
+func checkMailInput(email string) string {
+	var isValidMail = strings.Contains(email, "@")
+	for !isValidMail {
+		fmt.Println("enter a valid email address: (must contain '@')")
+		fmt.Scan(&email)
+		isValidMail = strings.Contains(email, "@")
+	}
+	return email
+}
+
+func checkTicketInput(userTickets uint8,avaiableTickets uint8) uint8{
+	var isValidTickets = userTickets>0
+	for !isValidTickets{
+		fmt.Println("You need to buy at least one ticket! type again:")
+		fmt.Scan(&userTickets)
+		isValidTickets = userTickets>0
+	}
+	for userTickets>avaiableTickets{
+		fmt.Printf("You cannot by more than the %v avaiable tickets! type again:\n",avaiableTickets)
+		fmt.Scan(&userTickets)
+	}
+	return userTickets
 }
