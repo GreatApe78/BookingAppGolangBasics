@@ -27,13 +27,7 @@ func main() {
 
 		pl("Get your tickets here to attend")
 
-		pl("Enter your first name: ")
-
-		input(&firstName)
-
-		pl("Enter your last name: ")
-
-		input(&lastName)
+		firstName,lastName = getNameInput()
 
 		var validFullName = checkNameInput(firstName, lastName)
 
@@ -45,7 +39,7 @@ func main() {
 
 		input(&userTickets)
 
-		var validTickets = checkTicketInput(userTickets,remainingTickets)
+		var validTickets = checkTicketInput(userTickets, remainingTickets)
 
 		remainingTickets = remainingTickets - validTickets
 
@@ -54,11 +48,13 @@ func main() {
 		pf("Thank you %v for booking %v tickets. You will receive a confirmation email at %v\n", validFullName, validTickets, validMail)
 
 		pf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
-
+		fmt.Println("============================================")
 		fmt.Printf("The first names of bookings are: %v \n", getFirstNames(bookings))
+		fmt.Println("============================================")
 	}
 
 	pl("Booking Closed, no tickets left")
+	fmt.Println("================End of Application================")
 }
 
 //funcoes
@@ -103,16 +99,30 @@ func checkMailInput(email string) string {
 	return email
 }
 
-func checkTicketInput(userTickets uint8,avaiableTickets uint8) uint8{
-	var isValidTickets = userTickets>0
-	for !isValidTickets{
+func checkTicketInput(userTickets uint8, avaiableTickets uint8) uint8 {
+	var isValidTickets = userTickets > 0
+	for !isValidTickets {
 		fmt.Println("You need to buy at least one ticket! type again:")
 		fmt.Scan(&userTickets)
-		isValidTickets = userTickets>0
+		isValidTickets = userTickets > 0
 	}
-	for userTickets>avaiableTickets{
-		fmt.Printf("You cannot by more than the %v avaiable tickets! type again:\n",avaiableTickets)
+	for userTickets > avaiableTickets {
+		fmt.Printf("You cannot by more than the %v avaiable tickets! type again:\n", avaiableTickets)
 		fmt.Scan(&userTickets)
 	}
 	return userTickets
+}
+
+func getNameInput() (string, string) {
+	var firstName string
+	var lastName string
+	fmt.Println("Enter your first name: ")
+
+	fmt.Scan(&firstName)
+
+	fmt.Println("Enter your last name: ")
+
+	fmt.Scan(&lastName)
+
+	return firstName,lastName
 }
