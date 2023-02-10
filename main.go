@@ -60,7 +60,14 @@ func main() {
 		pl("How many tickets do you want to buy?")
 		
 		input(&userTickets)
-	
+		
+		var isValidTickets = userTickets>0
+		
+		for !isValidTickets{
+			pl("You need to buy at least one ticket!")
+			input(&userTickets)
+			isValidTickets = userTickets>0
+		}
 
 		for userTickets > remainingTickets{
 			pf("You cannot buy more tickets than the remaining ones. Choose a valid quantity! %v or less\n",remainingTickets)
