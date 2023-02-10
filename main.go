@@ -17,7 +17,6 @@ func main() {
 	var bookings = []string{}
 	var pf = fmt.Printf
 	var pl = fmt.Println
-	var input = fmt.Scan
 
 	for remainingTickets != 0 {
 
@@ -31,13 +30,12 @@ func main() {
 
 		var validFullName = checkNameInput(firstName, lastName)
 
-		pl("Enter your email address: ")
-		input(&email)
+		email = getMailInput()
+
 		var validMail = checkMailInput(email)
 
-		pl("How many tickets do you want to buy?")
+		userTickets = getTicketInput()
 
-		input(&userTickets)
 
 		var validTickets = checkTicketInput(userTickets, remainingTickets)
 
@@ -125,4 +123,22 @@ func getNameInput() (string, string) {
 	fmt.Scan(&lastName)
 
 	return firstName,lastName
+}
+
+func getMailInput() string{
+	var email string
+	
+	fmt.Println("Enter your email address: ")
+	
+	fmt.Scan(&email)
+
+	return email
+}
+func getTicketInput() uint8{
+	var userTickets uint8
+	fmt.Println("Enter Number of tickets: ")
+	fmt.Scan(&userTickets)
+
+	return userTickets
+
 }
