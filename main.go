@@ -3,18 +3,25 @@ package main
 import (
 	"BookingApp/helper"
 	"fmt"
-	"strconv"
-	
 )
 
 //Package variables
 var conferenceName string = "Great Inc"
+
 const conferenceTickets uint8 = 50
+
 var remainingTickets uint8 = 50
-var bookings = make([]map[string]string,0)
 
-var counter uint8 = 0 
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint8
+}
 
+var bookings = make([]UserData, 0)
+
+var counter uint8 = 0
 
 func main() {
 	//variables
@@ -22,14 +29,14 @@ func main() {
 	var lastName string
 	var email string
 	var userTickets uint8
-
+	var firstNamesList []string = []string{}
 	for remainingTickets != 0 {
 
-		helper.GreetUsers(conferenceName,conferenceTickets,remainingTickets)
+		helper.GreetUsers(conferenceName, conferenceTickets, remainingTickets)
 
 		firstName, lastName = helper.GetNameInput()
 
-		var validFullName = helper.CheckNameInput(firstName,lastName)
+		var validFullName = helper.CheckNameInput(firstName, lastName)
 
 		email = helper.GetMailInput()
 
@@ -41,22 +48,23 @@ func main() {
 
 		remainingTickets = remainingTickets - validTickets
 
-		//create a map for user
-
-		var userData = make(map[string]string)
-		userData["firstName"] = helper.SplitName(validFullName)[0] 
-		userData["lastName"] = helper.SplitName(validFullName)[1]
-		userData["email"] = validMail
-		userData["numberOfTickets"] = strconv.FormatUint(uint64(validTickets),10)
+		var userData = UserData{
+			firstName:       helper.SplitName(validFullName)[0],
+			lastName:        helper.SplitName(validFullName)[1],
+			email:           validMail,
+			numberOfTickets: validTickets,
+		}
 
 		bookings = append(bookings, userData)
+
 		
-		
+
+		firstNamesList = append(firstNamesList, bookings[counter].firstName)
 		fmt.Printf("Thank you %v for booking %v tickets. You will receive a confirmation email at %v\n", validFullName, validTickets, validMail)
 
 		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 		fmt.Println("============================================")
-		fmt.Println(bookings)
+		fmt.Println(firstNamesList)
 		fmt.Println("============================================")
 
 		counter++
@@ -64,9 +72,3 @@ func main() {
 
 	helper.ShowEndMessage()
 }
-
-//funcoes
-
-
-
-
