@@ -78,3 +78,9 @@ func CheckTicketInput(userTickets uint8, avaiableTickets uint8) uint8 {
 	return userTickets
 
 }
+
+func SplitName(fullName string) []string{
+	
+	return strings.Fields(fullName)
+	
+}
