@@ -4,6 +4,7 @@ import (
 	"BookingApp/helper"
 	"fmt"
 	"time"
+	"sync"
 )
 
 //Package variables
@@ -23,7 +24,7 @@ type UserData struct {
 var bookings = make([]UserData, 0)
 
 var counter uint8 = 0
-
+var wg = sync.WaitGroup{}
 func main() {
 	//variables
 	var firstName string
@@ -65,13 +66,14 @@ func main() {
 		fmt.Println("============================================")
 		fmt.Println(firstNamesList)
 		fmt.Println("============================================")
-		
+		wg.Add(1)
 		go sendTicket(userData.numberOfTickets,userData.firstName,userData.lastName,userData.email)
 
 		counter++
 	}
 
 	helper.ShowEndMessage()
+	wg.Wait()
 }
 
 func sendTicket(userTickets uint8,firstName string, lastName string,email string ){
@@ -80,4 +82,5 @@ func sendTicket(userTickets uint8,firstName string, lastName string,email string
 	fmt.Println("==============")
 	fmt.Printf("Sending ticket:\n %v \n to email addres %v\n",ticket,email)
 	fmt.Println("==============")
+	wg.Done()
 }
