@@ -3,6 +3,7 @@ package main
 import (
 	"BookingApp/helper"
 	"fmt"
+	"time"
 )
 
 //Package variables
@@ -57,8 +58,6 @@ func main() {
 
 		bookings = append(bookings, userData)
 
-		
-
 		firstNamesList = append(firstNamesList, bookings[counter].firstName)
 		fmt.Printf("Thank you %v for booking %v tickets. You will receive a confirmation email at %v\n", validFullName, validTickets, validMail)
 
@@ -66,9 +65,19 @@ func main() {
 		fmt.Println("============================================")
 		fmt.Println(firstNamesList)
 		fmt.Println("============================================")
+		
+		go sendTicket(userData.numberOfTickets,userData.firstName,userData.lastName,userData.email)
 
 		counter++
 	}
 
 	helper.ShowEndMessage()
+}
+
+func sendTicket(userTickets uint8,firstName string, lastName string,email string ){
+	time.Sleep(40*time.Second)
+	var ticket = fmt.Sprintf("%v tickets for %v %v",userTickets,firstName,lastName)
+	fmt.Println("==============")
+	fmt.Printf("Sending ticket:\n %v \n to email addres %v\n",ticket,email)
+	fmt.Println("==============")
 }
